@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <!-- 父组件通过props向子组件传值   子组件通过事件触发向父组件传值 -->
+                <!-- @inc  父组件接受-->
+            <child :a="1" @inc="handleIncrease"></child> <!-- 有两个点,里面都是表达式,如果没有就是字符串 -->
+            <child :a="2" @inc="handleIncrease"></child> 
+            <div>{{total}} </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    var child = {
+        props: ["a"],
+        data(){
+            return {
+                number:this.a  //因为单向数据流,把父元素传过来的值用number接
+            }
+        },
+        template: `<div @click="c">{{number}}</div>`,
+        methods: {
+            c() {
+                this.number++;
+                this.$emit('inc', 1)  //子组件发送 methods
+            }
+        }
+    }
+    var vm = new Vue({
+        el: "#app",
+        components: {
+            child
+        },
+        data:{
+            total:3
+        },
+        methods:{
+            handleIncrease(step){
+                this.total += step
+            }
+        }
+    })
+</script>
+
+</html>
