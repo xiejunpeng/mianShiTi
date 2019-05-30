@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+    <!-- 一、闭包
+        1.概念：外函数内部嵌套内函数，同时将内函数返回。内部函数引入外部函数的变量及参数，不会被垃圾回收机制所收回
+        2.优缺点：
+            * 可以让一个变量长期驻扎在内存当中不被释放。过度使用闭包，会占用过多的内存，造成性能问题
+            * 闭包内的变量不会被函数外使用到
+
+     -->
+    <script type="text/javascript">
+        // function cc(){
+        //     var num = 10;
+        //     num++;
+        //     console.log(num);
+        // }
+        // cc();//11
+        // cc();//11
+
+        function aa(){
+            var num = 10;
+            function bb(){
+                num++;
+                console.log(num);
+            }
+            return bb;
+        }
+         // aa();
+         aa()();   //先计算前面括号的值,然后执行这个返回值 
+        // var res = aa();
+        // res();//11
+        // res();//12
+        // res();//12
+        // res();//12
+        // res();//12
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
