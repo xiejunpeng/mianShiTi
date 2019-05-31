@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>promise</title>
+		<script type="text/javascript">
+			/*
+			 	需求：在异步的代码中，需要保证顺序执行，否则代码出错：需要异步，但是又保证顺序
+			 	
+			 	解决方案：
+			 	
+			 		* 开关
+			 		* 回调函数
+			 		* promise 
+			 			* 解决回调地狱(嵌套过多)
+			 			* 保证异步的顺序执行
+			 
+			 */
+			
+			var mypro=new Promise(function(resolve,reject){
+				resolve('11');
+			});
+			
+			
+			mypro.then(function(data){
+				console.log(data);
+			},function(){
+				console.log('失败');
+			});
+			
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

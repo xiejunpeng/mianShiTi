@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>组装电脑</title>
+		<script src="../common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//无法保证顺序
+			
+			
+			//回调地狱：解决顺序问题：问题是嵌套太多层了
+
+			//cpu
+//			ajax('GET', 'api/computer_cpu.php', '', function(str) {
+//				console.log(str);
+//				//hd硬盘
+//				ajax('GET', 'api/computer_hd.php', '', function(str) {
+//					console.log(str);
+//					//主板
+//					ajax('GET', 'api/computer_mb.php', '', function(str) {
+//						console.log(str);
+//						//显示器
+//						ajax('GET', 'api/computer_monitor.php', '', function(str) {
+//							console.log(str);
+//							//内存
+//							ajax('GET', 'api/computer_RAM.php', '', function(str) {
+//								console.log(str);
+//							});
+//						});
+//					});
+//				});
+//			});
+			
+			//promise
+			
+			//cpu
+			var pro_cpu=new Promise(function(resolve,reject){
+				ajax('GET','api/computer_cpu.php','',function(str){
+					//渲染代码块
+					resolve(str);
+				});
+			});
+			
+			//hd
+			var pro_hd=new Promise(function(resolve,reject){
+				ajax('GET','api/computer_hd.php','',function(hd){
+					resolve(hd);
+				});
+			});
+			
+			//mb
+			var pro_mb=new Promise(function(resolve,reject){
+				ajax('GET','api/computer_mb.php','',function(mb){
+					resolve(mb);
+				});
+			});
+			
+			//显示器
+			var pro_xsq=new Promise(function(resolve,reject){
+				ajax('GET','api/computer_monitor.php','',function(monitor){
+					resolve(monitor);
+				});
+			});
+			
+			//RAM
+			var pro_RAM=new Promise(function(resolve,reject){
+				ajax('GET','api/computer_RAM.php','',function(RAM){
+					resolve(RAM);
+				});
+			});
+			
+			//在异步中保证顺序执行，当所有的子对象都完成了，才执行then后面的函数。子对象构成大的对象
+//			Promise.all([pro_cpu,pro_hd,pro_mb,pro_xsq,pro_RAM]).then(function(data){
+//				console.log('组装电脑：'+data);
+//			});
+			
+			//竞速：只要有一个完成，就开始执行回调函数。保证速度是最快的
+			Promise.race([pro_cpu,pro_hd,pro_mb,pro_xsq,pro_RAM]).then(function(data){
+				console.log(data);//// 竞速，完成一个即可
+			});
+		</script>
+	</head>
+
+	<body>
+	</body>
+
+</html>

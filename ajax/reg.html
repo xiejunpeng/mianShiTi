@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用户注册</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<style type="text/css">
+		/*类:基类
+		自己类:glyphicon-jpy*/
+		.glyphicon-jpy{
+			font-size: 60px;
+			color: lightcoral;
+		}
+	</style>
+	<script type="text/javascript">
+		/*
+		 	验证用户名是否存在：不存在才能注册
+		 		* 把用户名传到接口，接口要验证该用户名是否存在
+		 			* ajax
+		 			* 事件：失去焦点
+		 		* 存在返回0，不存在返回1
+
+			注册功能:把用户名和密码存储数据库
+		*/
+		document.addEventListener('DOMContentLoaded',function(){
+			
+			var username=document.querySelector('#username');
+			var usninf=document.querySelector('#usninf');
+			var isok=false;
+			var btn=document.querySelector('#btn');//name top 不能用作id名
+			var psw=document.querySelector('#password');
+			
+			//验证用户名是否存在：不存在才能注册
+			username.onblur=function(){
+				var val=username.value.trim();//获取内容
+				var xhr=new XMLHttpRequest();
+				var url=`api/checkname.php?username=${val}&time=${new Date()}`;
+				xhr.open('GET',url,true);
+				xhr.send();
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4 && xhr.status==200){
+						var str=xhr.responseText;
+						console.log(str);
+						if(str=='0'){//已存在
+							usninf.innerHTML='该用户名太受欢迎啦，请换一个';
+							usninf.style.color='red';
+						}else{
+							//不存在
+							usninf.innerHTML='用户名可用';
+							usninf.style.color='green';
+							isok=true;
+						}
+					}
+				}
+			}
+			
+			
+			btn.onclick=function(){
+				
+				var valName=username.value.trim();
+				var valPsw=psw.value.trim();
+				//注册功能
+				if(isok){
+					var xhr=new XMLHttpRequest();
+					//改用post方式提交数据:参数是放在send方法里面提交
+					xhr.open('POST','api/reg.php',true);
+					//post方式发送数据，要设置请求头
+					xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+					var data=`name=${valName}&psw=${valPsw}`;
+					xhr.send(data);//post方式，send的实参就是数据
+					
+					xhr.onreadystatechange=function(){
+						if(xhr.readyState==4 && xhr.status==200){
+							var str=xhr.responseText;
+							console.log(str);
+							if(str=='yes'){ //成功注册跳转到登陆页面
+								location.href='08login.html';
+							}else{
+								alert('注册失败');
+								
+							}
+						}
+					}
+					
+				}
+			}
+			
+		});
+		
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h1>用户注册</h1>
+		<div class="form">
+			<div class="form-group">
+				<label for="username">用户名：</label>
+				<input type="text" id="username" name="username" class="form-control">
+				<span class="help-block" id="usninf"></span>
+			</div>
+			<div class="form-group">
+				<label for="password">密码：</label>
+				<input type="password" id="password" name="password" class="form-control">
+			</div>
+			<div class="form-group">
+				<a class="btn btn-success btnReg" id="btn">注册</a>
+			</div>
+		</div>
+		<!--<span class="glyphicon glyphicon-jpy"></span>-->
+	</div>
+</body>
+</html>

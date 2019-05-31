@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>获取ip地址</title>
+		<script src="../common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//钟群 和 胡家伟
+			
+			/*
+			 	ajax获取同域的接口即可，和以前的同域获取资料没有太大差别
+			 	
+			 	
+			 */
+			var url='api/getip.php';
+			ajax('GET',url,'',function(str){
+				console.log(str);
+			});
+			
+		</script>
+	</head>
+	<body>
+		<input type="button" name="btn" id="btn" value="获取数据" />
+	</body>
+</html>

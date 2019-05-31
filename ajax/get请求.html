@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>获取接口数据渲染</title>
+		<script type="text/javascript">
+			/*
+			 	使用ajax获取接口数据，进行页面渲染
+			 	
+			 		* 1.创建对象，告诉对象你要什么
+			 		* 2.发送请求
+			 		* 3.做数据(后台做)
+			 		* 4.接收数据，进行渲染
+			 
+			 */
+			
+			document.addEventListener('DOMContentLoaded',()=>{
+				
+				var list=document.querySelector('#list');
+				//1.创建对象，告诉对象你要什么
+				var xhr=new XMLHttpRequest();//创建对象 0
+				
+				//告诉对象你要什么接口
+				/*
+				 open()
+				 
+					* 参数一：请求方式  GET  POST
+					* 参数二：接口的路径
+						* 绝对路径：http://localhost:1809/code/25php%20ajax11-09/03goodlist.php
+						* 相对路径：03goodlist.php
+				 
+				 	* 参数三：是否异步，默认就是异步  true
+				 * */
+				xhr.open('GET','03goodlist.php',true); //1
+				
+				//2.ajax帮你发送请求
+				xhr.send(); //2
+				
+				//3.做数据(去php页面写数据)
+				
+				
+				//4.接收数据，做数据渲染
+				xhr.onreadystatechange=()=>{ //3 4
+					if(xhr.readyState==4){
+						//响应完成，完成==正确？
+						if(xhr.status==200){//200代表成功
+							//正确，dom操作
+							var data=xhr.responseText;//字符串
+							var arr=JSON.parse(data);//转成对象
+							console.log(arr);
+							//dom:数据渲染
+							for(let i=0;i<arr.length;i++){
+								let html=`<li data-id="${arr[i].gid}">
+												<h1>${arr[i].name}</h1>
+												<p>${arr[i].price}</p>
+												<p>${arr[i].color}</p>
+											</li>`;
+								list.innerHTML+=html;
+							}
+						}
+					}
+				}
+				
+				
+			});
+		</script>
+	</head>
+	<body>
+		<ul id="list">
+			<!--<li>
+				<h1>苹果</h1>
+				<p>999</p>
+				<p>价格</p>
+			</li>-->
+		</ul>
+	</body>
+</html>

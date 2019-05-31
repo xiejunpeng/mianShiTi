@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/jquery-1.10.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				
+				$.ajax({
+					type:"get",//请求方式
+					url:"api/01goodlist.php",//接口路径
+					async:true,//异步
+					data:{//传输数据
+						'page':1,
+						'qty':5
+					},
+					success:function(str){//成功回调
+						init(str);//数据渲染
+					}
+				});
+				
+				function init(str){
+					var arr=JSON.parse(str).datalist;
+					console.log(arr);//用之前检测
+//					var res=arr.map(function(item){
+//							return `<li>${item.name}</li>`;
+//						}).join('');
+//						
+//					$('#list').html(res);
+
+					var html='';
+					for(var i=0;i<arr.length;i++){
+						html+=`<li>${arr[i].name}</li>`;
+					}
+					$('#list').html(html);
+					
+				}
+				
+			});
+		</script>
+	</head>
+	<body>
+		<ul id="list">
+			<!--<li></li>-->
+		</ul>
+	</body>
+</html>
