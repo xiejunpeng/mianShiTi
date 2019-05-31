@@ -18,7 +18,7 @@
 </body>
 <script>
     // bus 总线 进行非父子组件的传值
-    Vue.prototype.bus = new Vue(); //原型上挂载一个属性
+    Vue.prototype.bus = new Vue(); // Vue的意思是引入Vue的构造函数 原型上挂载一个属性
     var child = {
         props: ["content"],
         data: function () {
@@ -33,9 +33,8 @@
             }
         },
         mounted() {
-            var _this = this
-            this.bus.$on('change', function (content) {
-                _this.myContent = content;
+            this.bus.$on('change', content=> {
+                this.myContent = content;
             })
         }
 
